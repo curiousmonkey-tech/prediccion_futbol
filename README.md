@@ -1,12 +1,12 @@
-# Prediccion de fútbol con Python: Portugal vs Espana
+# Prediccion de fútbol con Python: Portugal vs España
 
 Antes de nada: gracias.
 
-Si has llegado hasta aqui desde curious monkey, gracias de verdad por apoyar el contenido, por comentar, por compartir, por probar los proyectos y por estar ahí mientras empiezo este camino creando contenido sobre tecnologia, datos, automatizacion e inteligencia artificial.
+Si has llegado hasta aquí desde curious monkey, gracias de verdad por apoyar el contenido, por comentar, por compartir, por probar los proyectos y por estar ahí mientras empiezo este camino creando contenido sobre tecnologia, datos, automatizacion e inteligencia artificial.
 
 Este proyecto esta pensado para que puedas abrirlo, ejecutarlo, entenderlo, modificarlo y mejorarlo. No es un modelo perfecto ni pretende vender humo: es una base práctica para aprender como combinar datos historicos, scraping, estadística y simulación Monte Carlo para estimar marcadores probables de un partido de fútbol.
 
-## Sigue a curious monkey
+## Sígueme en:
 
 - Instagram: https://www.instagram.com/curiousmonkey.tech/
 - YouTube: https://www.youtube.com/@curiousmonkey_tech
@@ -14,7 +14,7 @@ Este proyecto esta pensado para que puedas abrirlo, ejecutarlo, entenderlo, modi
 
 Si mejoras algo, encuentras un fallo o haces una versión más potente, me encantaria que me lo contaras por cualquiera de esas redes. La idea es que este proyecto también sirva para aprender entre todos.
 
-## Que hace este proyecto
+## Qué hace este proyecto
 
 Este proyecto predice marcadores probables para un partido concreto:
 
