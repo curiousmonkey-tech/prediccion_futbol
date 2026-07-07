@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# IDEs and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Generated data
+data/raw/*.csv
+data/processed/*.csv
+
+# Keep example outputs in the repository, but ignore ad-hoc local exports.
+outputs/*.tmp
+outputs/*.log
