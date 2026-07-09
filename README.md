@@ -1,4 +1,4 @@
-# Prediccion de fútbol con Python: Portugal vs España
+# Predicción de fútbol con Python: Portugal vs España
 
 Antes de nada: gracias.
 
