@@ -68,11 +68,9 @@ Los CSV de `data/` se generan al ejecutar el proyecto y estan ignorados por Git 
 ## Clonar el repositorio
 
 ```bash
-git clone https://github.com/TU_USUARIO/TU_REPO.git
-cd TU_REPO
+git clone https://github.com/curiousmonkey-tech/prediccion-futbol.git
+cd prediccion-futbol
 ```
-
-Sustituye `TU_USUARIO/TU_REPO` por la URL real del repositorio.
 
 ## Instalacion
 
@@ -92,7 +90,7 @@ python -m venv .venv
 python -m pip install -r requirements.txt
 ```
 
-En macOS o Linux, la activacion del entorno virtual seria:
+En macOS o Linux, la activación del entorno virtual sería:
 
 ```bash
 source .venv/bin/activate
@@ -106,14 +104,14 @@ Ejecuta el proyecto con:
 python src/main.py
 ```
 
-Al terminar, deberias ver mensajes parecidos a estos:
+Al terminar, deberías ver mensajes parecidos a estos:
 
 ```text
 Predicción generada en outputs/prediccion_portugal_espana.csv
 Resumen generado en outputs/resumen_prediccion.md
 ```
 
-## Comprobacion rapida
+## Comprobación rápida
 
 Puedes ejecutar una verificacion local sin scraping ni descarga de datos:
 
@@ -121,7 +119,7 @@ Puedes ejecutar una verificacion local sin scraping ni descarga de datos:
 python scripts/quick_check.py
 ```
 
-Esta comprobacion valida que las funciones principales de Poisson y Monte Carlo producen salidas coherentes.
+Esta comprobación valida que las funciones principales de Poisson y Monte Carlo producen salidas coherentes.
 
 ## Salidas generadas
 
@@ -131,29 +129,29 @@ Esta comprobacion valida que las funciones principales de Poisson y Monte Carlo 
 - `outputs/prediccion_portugal_espana.csv`: ranking de marcadores con probabilidad Poisson y Monte Carlo.
 - `outputs/resumen_prediccion.md`: resumen explicativo del proceso, lambdas, probabilidades y top de marcadores.
 
-## Documentacion extra
+## Documentación extra
 
-- `METODOLOGIA.md`: explicacion mas detallada del enfoque estadistico.
-- `CONTRIBUTING.md`: guia para que otras personas puedan proponer mejoras.
-- `LICENSE`: licencia MIT para permitir uso, modificacion y distribucion.
-- `.github/workflows/python-check.yml`: comprobacion automatica basica en GitHub Actions.
+- `METODOLOGIA.md`: explicación más detallada del enfoque estadístico.
+- `CONTRIBUTING.md`: guía para que otras personas puedan proponer mejoras.
+- `LICENSE`: licencia MIT para permitir uso, modificación y distribución.
+- `.github/workflows/python-check.yml`: comprobación automática basica en GitHub Actions.
 
 ## Metodologia resumida
 
 El proyecto sigue este flujo:
 
-1. Descarga o carga resultados historicos internacionales.
-2. Obtiene informacion de plantillas desde Transfermarkt.
-3. Calcula variables de rendimiento para Portugal y Espana.
+1. Descarga o carga resultados históricos internacionales.
+2. Obtiene información de plantillas desde Transfermarkt.
+3. Calcula variables de rendimiento para Portugal y España.
 4. Resume los enfrentamientos directos entre ambas selecciones.
-5. Estima los goles esperados de cada equipo usando una combinación de forma reciente, localia/visita, historico directo y calidad de plantilla.
+5. Estima los goles esperados de cada equipo usando una combinación de forma reciente, localia/visita, histórico directo y calidad de plantilla.
 6. Usa Poisson para calcular probabilidades de marcadores.
-7. Ejecuta una simulacion Monte Carlo de 100000 partidos.
+7. Ejecuta una simulación Monte Carlo de 100000 partidos.
 8. Guarda los resultados en `outputs/`.
 
 ## Importante
 
-Este proyecto es educativo. Una prediccion deportiva real depende de muchisimos factores que aqui no se están modelando, por ejemplo:
+Este proyecto es educativo. Una prediccion deportiva real depende de muchisimos factores que aquí no se están modelando, por ejemplo:
 
 - Alineaciones confirmadas.
 - Lesiones de última hora.
@@ -165,13 +163,13 @@ Este proyecto es educativo. Una prediccion deportiva real depende de muchisimos 
 - Motivación competitiva.
 - Cambios recientes de entrenador.
 
-Además, el valor de mercado de Transfermarkt se usa como proxy de calidad, pero no representa por si solo el nivel real de un equipo.
+Además, el valor de mercado de Transfermarkt se usa como proxy de calidad, pero no representa por sí solo el nivel real de un equipo.
 
 ## Sobre el scraping
 
-El proyecto consulta Transfermarkt mediante scraping web. Puede dejar de funcionar si la pagina cambia su estructura HTML, modifica sus politicas de acceso o bloquea peticiones automatizadas.
+El proyecto consulta Transfermarkt mediante scraping web. Puede dejar de funcionar si la página cambia su estructura HTML, modifica sus políticas de acceso o bloquea peticiones automatizadas.
 
-Usa este codigo de forma responsable, con fines educativos y respetando los terminos de uso de las webs consultadas.
+Usa este código de forma responsable, con fines educativos y respetando los terminos de uso de las webs consultadas.
 
 ## Ideas para mejorar el proyecto
 
