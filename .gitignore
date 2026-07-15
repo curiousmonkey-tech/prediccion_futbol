@@ -14,6 +14,9 @@ venv/
 env/
 ENV/
 
+# Secrets
+.env
+
 # IDEs and OS files
 .vscode/
 .idea/
@@ -22,8 +25,23 @@ Thumbs.db
 
 # Generated data
 data/raw/*.csv
+data/raw/current_data/*.json
 data/processed/*.csv
 
-# Keep example outputs in the repository, but ignore ad-hoc local exports.
+# Generated local outputs
+outputs/prediccion_*.csv
+outputs/resumen_prediccion_*.md
+outputs/*.pdf
 outputs/*.tmp
 outputs/*.log
+
+# Reel/video assets generated locally
+Francia/
+argentina/
+reel_segundo/
+segundo_reel.md
+LOGO-NOMBRE.png
+scripts/generate_argentina_captures.py
+scripts/generate_francia_captures.py
+scripts/generate_reel_assets.py
+scripts/generate_project_pdf.py

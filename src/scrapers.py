@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup
 TRANSFERMARKT_URLS = {
     "Portugal": "https://www.transfermarkt.com/portugal/startseite/verein/3300",
     "Spain": "https://www.transfermarkt.com/spanien/startseite/verein/3375",
+    "Belgium": "https://www.transfermarkt.com/belgien/startseite/verein/3382",
 }
 
 HEADERS = {
@@ -44,6 +45,16 @@ def parse_market_value(value: str) -> float:
     if suffix == "K":
         return number * 1_000
     return number
+
+
+def empty_squad_quality(team: str) -> SquadQuality:
+    return SquadQuality(
+        team=team,
+        players=0,
+        total_market_value_eur=0.0,
+        average_market_value_eur=0.0,
+        scraped_from="not_configured",
+    )
 
 
 def scrape_transfermarkt_squad(team: str) -> tuple[pd.DataFrame, SquadQuality]:
@@ -94,11 +105,18 @@ def scrape_transfermarkt_squad(team: str) -> tuple[pd.DataFrame, SquadQuality]:
     return df, quality
 
 
-def scrape_squads() -> tuple[pd.DataFrame, pd.DataFrame]:
+def scrape_squads(teams: tuple[str, str]) -> tuple[pd.DataFrame, pd.DataFrame]:
     squad_frames = []
     quality_rows = []
-    for team in ("Portugal", "Spain"):
-        squad, quality = scrape_transfermarkt_squad(team)
-        squad_frames.append(squad)
+    for team in teams:
+        if team in TRANSFERMARKT_URLS:
+            try:
+                squad, quality = scrape_transfermarkt_squad(team)
+                squad_frames.append(squad)
+            except requests.RequestException:
+                quality = empty_squad_quality(team)
+        else:
+            quality = empty_squad_quality(team)
         quality_rows.append(quality.__dict__)
-    return pd.concat(squad_frames, ignore_index=True), pd.DataFrame(quality_rows)
+    squads = pd.concat(squad_frames, ignore_index=True) if squad_frames else pd.DataFrame()
+    return squads, pd.DataFrame(quality_rows)

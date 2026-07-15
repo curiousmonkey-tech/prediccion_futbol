@@ -16,33 +16,57 @@ def quality_factor(team_value: float, opponent_value: float, weight: float = 0.1
     return max(0.88, min(1.12, 1 + (ratio - 1) * weight))
 
 
-def estimate_lambdas(features: pd.DataFrame, h2h: dict[str, float]) -> dict[str, float]:
-    portugal = features[features["team"] == "Portugal"].iloc[0]
-    spain = features[features["team"] == "Spain"].iloc[0]
+def row_value(row: pd.Series, key: str, default: float) -> float:
+    value = row.get(key, default)
+    if pd.isna(value):
+        return default
+    return float(value)
 
-    portugal_quality = quality_factor(portugal.total_market_value_eur, spain.total_market_value_eur)
-    spain_quality = quality_factor(spain.total_market_value_eur, portugal.total_market_value_eur)
 
-    portugal_recent = (portugal.home_goals_for_avg + spain.away_goals_against_avg) / 2
-    spain_recent = (spain.away_goals_for_avg + portugal.home_goals_against_avg) / 2
+def clamp(value: float, lower: float = 0.85, upper: float = 1.15) -> float:
+    return max(lower, min(upper, value))
+
+
+def estimate_lambdas(features: pd.DataFrame, h2h: dict[str, float], home_team: str, away_team: str) -> dict[str, float]:
+    home = features[features["team"] == home_team].iloc[0]
+    away = features[features["team"] == away_team].iloc[0]
+
+    home_quality = quality_factor(home.total_market_value_eur, away.total_market_value_eur)
+    away_quality = quality_factor(away.total_market_value_eur, home.total_market_value_eur)
+
+    home_base = (home.home_goals_for_avg + away.away_goals_against_avg) / 2
+    away_base = (away.away_goals_for_avg + home.home_goals_against_avg) / 2
+    home_weighted = (row_value(home, "weighted_goals_for_avg", home.home_goals_for_avg) + row_value(away, "weighted_goals_against_avg", away.away_goals_against_avg)) / 2
+    away_weighted = (row_value(away, "weighted_goals_for_avg", away.away_goals_for_avg) + row_value(home, "weighted_goals_against_avg", home.home_goals_against_avg)) / 2
+    home_recent = 0.45 * home_base + 0.55 * home_weighted
+    away_recent = 0.45 * away_base + 0.55 * away_weighted
 
     if h2h["matches"]:
-        portugal_h2h = h2h["portugal_goals_avg"]
-        spain_h2h = h2h["spain_goals_avg"]
-        portugal_lambda = 0.78 * portugal_recent + 0.22 * portugal_h2h
-        spain_lambda = 0.78 * spain_recent + 0.22 * spain_h2h
+        home_h2h = h2h["home_goals_avg"]
+        away_h2h = h2h["away_goals_avg"]
+        home_lambda = 0.78 * home_recent + 0.22 * home_h2h
+        away_lambda = 0.78 * away_recent + 0.22 * away_h2h
     else:
-        portugal_lambda = portugal_recent
-        spain_lambda = spain_recent
+        home_lambda = home_recent
+        away_lambda = away_recent
 
-    portugal_lambda *= portugal_quality
-    spain_lambda *= spain_quality
+    home_current_factor = clamp(row_value(home, "current_attacking_index", 1.0) / row_value(away, "current_defensive_index", 1.0), 0.88, 1.12)
+    away_current_factor = clamp(row_value(away, "current_attacking_index", 1.0) / row_value(home, "current_defensive_index", 1.0), 0.88, 1.12)
+    home_player_factor = row_value(home, "player_form_index", 1.0)
+    away_player_factor = row_value(away, "player_form_index", 1.0)
+
+    home_lambda *= home_quality * home_current_factor * home_player_factor
+    away_lambda *= away_quality * away_current_factor * away_player_factor
 
     return {
-        "Portugal": max(0.15, float(portugal_lambda)),
-        "Spain": max(0.15, float(spain_lambda)),
-        "portugal_quality_factor": float(portugal_quality),
-        "spain_quality_factor": float(spain_quality),
+        home_team: max(0.15, float(home_lambda)),
+        away_team: max(0.15, float(away_lambda)),
+        "home_quality_factor": float(home_quality),
+        "away_quality_factor": float(away_quality),
+        "home_current_factor": float(home_current_factor),
+        "away_current_factor": float(away_current_factor),
+        "home_player_form_factor": float(home_player_factor),
+        "away_player_form_factor": float(away_player_factor),
     }
 
 
@@ -54,8 +78,8 @@ def scoreline_probabilities(lambda_home: float, lambda_away: float, max_goals: i
             rows.append(
                 {
                     "score": f"{home_goals}-{away_goals}",
-                    "portugal_goals": home_goals,
-                    "spain_goals": away_goals,
+                    "home_goals": home_goals,
+                    "away_goals": away_goals,
                     "poisson_probability": probability,
                 }
             )

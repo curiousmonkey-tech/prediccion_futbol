@@ -15,13 +15,13 @@ def monte_carlo_scorelines(lambda_home: float, lambda_away: float, simulations: 
     return counts.sort_values("monte_carlo_probability", ascending=False).reset_index(drop=True)
 
 
-def outcome_probabilities(scorelines: pd.DataFrame, home_col: str = "portugal_goals", away_col: str = "spain_goals") -> dict[str, float]:
+def outcome_probabilities(scorelines: pd.DataFrame, home_col: str = "home_goals", away_col: str = "away_goals") -> dict[str, float]:
     home = float(scorelines.loc[scorelines[home_col] > scorelines[away_col], "poisson_probability"].sum())
     draw = float(scorelines.loc[scorelines[home_col] == scorelines[away_col], "poisson_probability"].sum())
     away = float(scorelines.loc[scorelines[home_col] < scorelines[away_col], "poisson_probability"].sum())
     total = home + draw + away
     return {
-        "portugal_win_pct": home / total * 100,
+        "home_win_pct": home / total * 100,
         "draw_pct": draw / total * 100,
-        "spain_win_pct": away / total * 100,
+        "away_win_pct": away / total * 100,
     }
