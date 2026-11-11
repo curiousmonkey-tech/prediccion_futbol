@@ -221,7 +221,7 @@ def build_current_player_summary(team_name: str, summaries: dict[str, dict[str, 
     df = pd.DataFrame(rows)
     if df.empty:
         return pd.DataFrame(columns=["team", "player", "position", "appearances", "starts", "goals", "assists", "shots", "shots_on_goal", "yellow_cards", "red_cards", "player_form_score"])
-    return df.sort_values(["starts", "appearances", "player_form_score"], ascending=False).head(player_limit).reset_index(drop=True)
+    return df.sort_values(["player_form_score", "starts", "appearances"], ascending=False).head(player_limit).reset_index(drop=True)
 
 
 def fetch_current_context(cache_dir: Path, home_team: str, away_team: str, recent_matches: int, player_limit: int, force_refresh: bool, disabled: bool, max_requests: int = 40) -> tuple[Any, Any, dict[str, Any]]:

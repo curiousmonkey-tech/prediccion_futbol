@@ -37,11 +37,13 @@ outputs/*.log
 
 # Reel/video assets generated locally
 Francia/
+final/
 argentina/
 reel_segundo/
 segundo_reel.md
 LOGO-NOMBRE.png
 scripts/generate_argentina_captures.py
 scripts/generate_francia_captures.py
+scripts/generate_final_captures.py
 scripts/generate_reel_assets.py
 scripts/generate_project_pdf.py

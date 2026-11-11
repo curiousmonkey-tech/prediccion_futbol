@@ -12,6 +12,7 @@ TRANSFERMARKT_URLS = {
     "Portugal": "https://www.transfermarkt.com/portugal/startseite/verein/3300",
     "Spain": "https://www.transfermarkt.com/spanien/startseite/verein/3375",
     "Belgium": "https://www.transfermarkt.com/belgien/startseite/verein/3382",
+    "Argentina": "https://www.transfermarkt.com/argentinien/startseite/verein/3437",
 }
 
 HEADERS = {
